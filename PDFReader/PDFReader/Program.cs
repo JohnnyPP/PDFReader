@@ -29,9 +29,10 @@ namespace PDFReader
 
 		static void Main(string[] args)
 		{
+			Tuple<List<DateTime>, List<double>> dateTimeAndNumber = new Tuple<List<DateTime>, List<double>>(null, null);
 			string readString = PdfText(@"D:\DTemp\test2.pdf");
 			Console.Write(readString);
-			DateAndNumber(ValidateDateInFoundPattern(FindPattern(readString, "AMAZON")));
+			dateTimeAndNumber = DateAndNumber(ValidateDateInFoundPattern(FindPattern(readString, "AMAZON")));
 		}
 
 
@@ -78,8 +79,6 @@ namespace PDFReader
 
 				if (foundDate != null)
 					validatedPatterns.Add(foundDate);
-
-				FindNumber(foundPattern);
 			}
 
 			foreach (var validatedPattern in validatedPatterns)
@@ -91,7 +90,7 @@ namespace PDFReader
 			return validatedPatterns;
 		}
 
-		private static void DateAndNumber(List<string> foundPatterns)
+		private static Tuple<List<DateTime>, List<double>> DateAndNumber(List<string> foundPatterns)
 		{
 			List<double> numers = new List<double>();
 			List<DateTime> dateTimes = new List<DateTime>();
@@ -106,7 +105,8 @@ namespace PDFReader
 					dateTimes.Add(FindDateTime(foundPattern));
 				}
 			}
-			
+
+			return new Tuple<List<DateTime>, List<double>>(dateTimes, numers);
 		}
 
 		private static string FindDate(string foundPattern)
