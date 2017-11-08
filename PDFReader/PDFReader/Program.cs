@@ -31,8 +31,7 @@ namespace PDFReader
 		{
 			string readString = PdfText(@"D:\DTemp\test2.pdf");
 			Console.Write(readString);
-			//FindDates(readString);
-			ValidateDateInFoundPattern(FindPattern(readString));
+			DateAndNumber(ValidateDateInFoundPattern(FindPattern(readString, "AMAZON")));
 		}
 
 
@@ -48,15 +47,15 @@ namespace PDFReader
 			return text;
 		}
 
-		private static List<string> FindPattern(string stringToSearch)
+		private static List<string> FindPattern(string searchIn, string searchFor)
 		{
 			List<string> foundPatterns = new List<string>();
-			using (StringReader reader = new StringReader(stringToSearch))
+			using (StringReader reader = new StringReader(searchIn))
 			{
 				string line;
 				while ((line = reader.ReadLine()) != null)
 				{
-					if (line.Contains("AMAZON"))
+					if (line.Contains(searchFor))
 					{
 						Console.WriteLine(line);
 						foundPatterns.Add(line);
@@ -88,7 +87,26 @@ namespace PDFReader
 				Console.WriteLine(validatedPattern);
 			}
 
+			// validated patterns should be printed on the screen
 			return validatedPatterns;
+		}
+
+		private static void DateAndNumber(List<string> foundPatterns)
+		{
+			List<double> numers = new List<double>();
+			List<DateTime> dateTimes = new List<DateTime>();
+
+			foreach (var foundPattern in foundPatterns)
+			{
+				var foundNumber = FindNumber(foundPattern);
+
+				if (foundNumber != null)
+				{
+					numers.Add(double.Parse(foundNumber, NumberStyles.Currency));
+					dateTimes.Add(FindDateTime(foundPattern));
+				}
+			}
+			
 		}
 
 		private static string FindDate(string foundPattern)
@@ -104,14 +122,19 @@ namespace PDFReader
 			return null;
 		}
 
+		private static DateTime FindDateTime(string foundPattern)
+		{
+			var index = foundPattern.IndexOf(' ');
+			var date = foundPattern.Substring(0, index);
+			return DateTime.Parse(date);
+		}
+
 		private static string FindNumber(string foundPattern)
 		{
-			int index = foundPattern.LastIndexOf(' ');
-			Console.WriteLine(foundPattern.Substring(index + 1)); 
+			var index = foundPattern.LastIndexOf(' ');
+			var number = foundPattern.Substring(index + 1);
 
-
-
-			return foundPattern;
+			return number.Contains(',') ? number : null;
 		}
 	}
 }
