@@ -20,12 +20,12 @@ namespace PDFReader
 
 		public Tuple<List<DateTime>, List<double>> Extract()
 		{
-			return DateAndNumber(ValidateDateInFoundPattern(FindPattern(_SearchIn, _SearchFor)));
+			return DateAndNumber(ValidateDate(FindPattern(_SearchIn, _SearchFor)));
 		}
 
 		private static List<string> FindPattern(string searchIn, string searchFor)
 		{
-			List<string> foundPatterns = new List<string>();
+			var foundPatterns = new List<string>();
 			using (StringReader reader = new StringReader(searchIn))
 			{
 				string line;
@@ -33,7 +33,6 @@ namespace PDFReader
 				{
 					if (line.Contains(searchFor))
 					{
-						Console.WriteLine(line);
 						foundPatterns.Add(line);
 					}
 				}
@@ -42,11 +41,9 @@ namespace PDFReader
 			return foundPatterns;
 		}
 
-		private static List<string> ValidateDateInFoundPattern(List<string> foundPatterns)
+		private static List<string> ValidateDate(List<string> foundPatterns)
 		{
-			List<string> validatedPatterns = new List<string>();
-
-			Console.WriteLine("\nValidating dates...");
+			var validatedPatterns = new List<string>();
 
 			foreach (var foundPattern in foundPatterns)
 			{
@@ -56,29 +53,24 @@ namespace PDFReader
 					validatedPatterns.Add(foundDate);
 			}
 
-			foreach (var validatedPattern in validatedPatterns)
-			{
-				Console.WriteLine(validatedPattern);
-			}
-
 			// validated patterns should be printed on the screen
 			return validatedPatterns;
 		}
 
 		private static Tuple<List<DateTime>, List<double>> DateAndNumber(List<string> foundPatterns)
 		{
-			List<double> numers = new List<double>();
-			List<DateTime> dateTimes = new List<DateTime>();
+			var numers = new List<double>();
+			var dateTimes = new List<DateTime>();
 
 			foreach (var foundPattern in foundPatterns)
 			{
 				var foundNumber = FindNumber(foundPattern);
 
-				if (foundNumber != null)
-				{
-					numers.Add(double.Parse(foundNumber, NumberStyles.Currency));
-					dateTimes.Add(FindDateTime(foundPattern));
-				}
+				if (foundNumber == null)
+					continue;
+
+				numers.Add(double.Parse(foundNumber, NumberStyles.Currency));
+				dateTimes.Add(FindDateTime(foundPattern));
 			}
 
 			return new Tuple<List<DateTime>, List<double>>(dateTimes, numers);
