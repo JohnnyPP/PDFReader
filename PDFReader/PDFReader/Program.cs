@@ -35,7 +35,7 @@ namespace PDFReader
 			string readString = reader.Read();
 			Console.Write(readString);
 
-			AccountExtractor extractor = new AccountExtractor(readString, "Zeiss");
+			AccountPatternExtractor extractor = new AccountPatternExtractor(readString, "Zeiss");
 			dateTimeAndNumber = extractor.Extract();
 		}
 	}

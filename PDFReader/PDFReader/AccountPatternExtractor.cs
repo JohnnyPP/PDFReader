@@ -7,12 +7,15 @@ using System.Text.RegularExpressions;
 
 namespace PDFReader
 {
-	class AccountExtractor
+	/// <summary>
+	/// This class extracts data that matches the pattern
+	/// </summary>
+	class AccountPatternExtractor
 	{
 		private static string _SearchIn;
 		private static string _SearchFor;
 
-		public AccountExtractor(string searchIn, string searchFor)
+		public AccountPatternExtractor(string searchIn, string searchFor)
 		{
 			_SearchFor = searchFor;
 			_SearchIn = searchIn;
@@ -93,6 +96,7 @@ namespace PDFReader
 		{
 			var index = foundPattern.IndexOf(' ');
 			var date = foundPattern.Substring(0, index);
+
 			return DateTime.Parse(date);
 		}
 

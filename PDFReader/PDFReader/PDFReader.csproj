@@ -47,7 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountExtractor.cs" />
+    <Compile Include="AccountPatternExtractor.cs" />
     <Compile Include="AccountNegativeExtractor.cs" />
     <Compile Include="AccountPositiveExtractor.cs" />
     <Compile Include="PDFReader.cs" />
