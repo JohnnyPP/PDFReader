@@ -30,10 +30,12 @@ namespace PDFReader
 		static void Main(string[] args)
 		{
 			Tuple<List<DateTime>, List<double>> dateTimeAndNumber = new Tuple<List<DateTime>, List<double>>(null, null);
-			string readString = PDFReader.PdfText(@"D:\DTemp\test2.pdf");
+
+			PDFReader reader = new PDFReader(@"D:\Git\PDF\PDFs\test2.pdf");
+			string readString = reader.Read();
 			Console.Write(readString);
 
-			DateTimeAndAmountExtractor extractor = new DateTimeAndAmountExtractor(readString, "AMAZON");
+			DateTimeAndAmountExtractor extractor = new DateTimeAndAmountExtractor(readString, "Zeiss");
 			dateTimeAndNumber = extractor.Extract();
 		}
 	}
