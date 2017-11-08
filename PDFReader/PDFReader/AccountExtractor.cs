@@ -7,12 +7,12 @@ using System.Text.RegularExpressions;
 
 namespace PDFReader
 {
-	class DateTimeAndAmountExtractor
+	class AccountExtractor
 	{
 		private static string _SearchIn;
 		private static string _SearchFor;
 
-		public DateTimeAndAmountExtractor(string searchIn, string searchFor)
+		public AccountExtractor(string searchIn, string searchFor)
 		{
 			_SearchFor = searchFor;
 			_SearchIn = searchIn;
