@@ -30,23 +30,11 @@ namespace PDFReader
 		static void Main(string[] args)
 		{
 			Tuple<List<DateTime>, List<double>> dateTimeAndNumber = new Tuple<List<DateTime>, List<double>>(null, null);
-			string readString = PdfText(@"D:\DTemp\test2.pdf");
+			string readString = PDFReader.PdfText(@"D:\DTemp\test2.pdf");
 			Console.Write(readString);
 			dateTimeAndNumber = DateAndNumber(ValidateDateInFoundPattern(FindPattern(readString, "AMAZON")));
 		}
 
-
-		public static string PdfText(string path)
-		{
-			PdfReader reader = new PdfReader(path);
-			string text = string.Empty;
-			for (int page = 1; page <= reader.NumberOfPages; page++)
-			{
-				text += PdfTextExtractor.GetTextFromPage(reader, page);
-			}
-			reader.Close();
-			return text;
-		}
 
 		private static List<string> FindPattern(string searchIn, string searchFor)
 		{
