@@ -84,21 +84,21 @@ namespace PDFReader
 
 		private static Tuple<List<DateTime>, List<double>, List<string>> DateAndAccount(List<string> foundPatterns)
 		{
-			var numers = new List<double>();
+			var account = new List<double>();
 			var dateTimes = new List<DateTime>();
 
 			foreach (var foundPattern in foundPatterns)
 			{
-				var foundNumber = FindNumber(foundPattern);
+				var foundNumber = FindAccount(foundPattern);
 
 				if (foundNumber == null)
 					continue;
 
-				numers.Add(double.Parse(foundNumber, NumberStyles.Currency));
+				account.Add(double.Parse(foundNumber, NumberStyles.Currency));
 				dateTimes.Add(FindDateTime(foundPattern));
 			}
 
-			return new Tuple<List<DateTime>, List<double>, List<string>>(dateTimes, numers, foundPatterns);
+			return new Tuple<List<DateTime>, List<double>, List<string>>(dateTimes, account, foundPatterns);
 		}
 
 		private static string FindDate(string foundPattern)
@@ -122,7 +122,7 @@ namespace PDFReader
 			return DateTime.Parse(date);
 		}
 
-		private static string FindNumber(string foundPattern)
+		private static string FindAccount(string foundPattern)
 		{
 			var index = foundPattern.LastIndexOf(' ');
 			var number = foundPattern.Substring(index + 1);
