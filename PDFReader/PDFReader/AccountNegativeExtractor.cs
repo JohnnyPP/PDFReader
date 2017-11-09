@@ -9,7 +9,7 @@ namespace PDFReader
 	/// <summary>
 	/// This class extracts all negative amounts from the account avoiding internal transfers
 	/// </summary>
-	class AccountNegativeExtractor
+	class AccountNegativeExtractor : IExtractor
 	{
 		#region Fields
 
@@ -26,10 +26,12 @@ namespace PDFReader
 
 		#endregion
 
-
-
 		#region Methods
 
+		public Tuple<List<DateTime>, List<double>, List<string>> Extract()
+		{
+			throw new NotImplementedException();
+		}
 
 		#endregion
 	}
