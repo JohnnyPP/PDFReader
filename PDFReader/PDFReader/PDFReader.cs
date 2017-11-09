@@ -21,6 +21,8 @@ namespace PDFReader
 
 		#endregion
 
+		#region Methods
+
 		public string Read()
 		{
 			string readData = null;
@@ -32,8 +34,6 @@ namespace PDFReader
 
 			return readData;
 		}
-
-		#region Methods
 
 		private static string PdfText(string path)
 		{

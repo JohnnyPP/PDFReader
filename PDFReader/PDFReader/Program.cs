@@ -37,6 +37,7 @@ namespace PDFReader
 
 			AccountPatternExtractor extractor = new AccountPatternExtractor(readString, "Zeiss");
 			dateTimeAndNumber = extractor.Extract();
+			extractor.Print(dateTimeAndNumber);
 
 			//AccountPositiveExtractor.Sum() - AccountNegativeExtractor.Sum() = Amount saved in the month -> this should be displayed as bar plot
 		}

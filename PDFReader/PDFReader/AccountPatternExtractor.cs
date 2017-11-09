@@ -26,6 +26,17 @@ namespace PDFReader
 			return DateAndAccount(ValidateDate(FindPattern(_SearchIn, _SearchFor)));
 		}
 
+		public void Print(Tuple<List<DateTime>, List<double>, List<string>> dataToPrint)
+		{
+			Console.WriteLine(Environment.NewLine);
+			for (var i = 0; i < dataToPrint.Item1.Count; i++)
+			{
+				Console.WriteLine(dataToPrint.Item1[i]);
+				Console.WriteLine(dataToPrint.Item2[i]);
+				Console.WriteLine(dataToPrint.Item3[i]);
+			}
+		}
+
 		private static List<string> FindPattern(string searchIn, string searchFor)
 		{
 			var foundPatterns = new List<string>();
