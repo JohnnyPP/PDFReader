@@ -21,7 +21,7 @@ namespace PDFReader
 			_SearchIn = searchIn;
 		}
 
-		public Tuple<List<DateTime>, List<double>> Extract()
+		public Tuple<List<DateTime>, List<double>, List<string>> Extract()
 		{
 			return DateAndAccount(ValidateDate(FindPattern(_SearchIn, _SearchFor)));
 		}
@@ -56,11 +56,10 @@ namespace PDFReader
 					validatedPatterns.Add(foundDate);
 			}
 
-			// validated patterns should be printed on the screen
 			return validatedPatterns;
 		}
 
-		private static Tuple<List<DateTime>, List<double>> DateAndAccount(List<string> foundPatterns)
+		private static Tuple<List<DateTime>, List<double>, List<string>> DateAndAccount(List<string> foundPatterns)
 		{
 			var numers = new List<double>();
 			var dateTimes = new List<DateTime>();
@@ -76,7 +75,7 @@ namespace PDFReader
 				dateTimes.Add(FindDateTime(foundPattern));
 			}
 
-			return new Tuple<List<DateTime>, List<double>>(dateTimes, numers);
+			return new Tuple<List<DateTime>, List<double>, List<string>>(dateTimes, numers, foundPatterns);
 		}
 
 		private static string FindDate(string foundPattern)

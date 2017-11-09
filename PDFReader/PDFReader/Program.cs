@@ -29,7 +29,7 @@ namespace PDFReader
 
 		static void Main(string[] args)
 		{
-			Tuple<List<DateTime>, List<double>> dateTimeAndNumber = new Tuple<List<DateTime>, List<double>>(null, null);
+			var dateTimeAndNumber = new Tuple<List<DateTime>, List<double>, List<string>>(null, null, null);
 
 			PDFReader reader = new PDFReader(@"D:\Git\PDF\PDFs\test2.pdf");
 			string readString = reader.Read();
