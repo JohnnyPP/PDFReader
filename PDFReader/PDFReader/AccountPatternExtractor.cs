@@ -23,7 +23,7 @@ namespace PDFReader
 
 		public Tuple<List<DateTime>, List<double>> Extract()
 		{
-			return DateAndNumber(ValidateDate(FindPattern(_SearchIn, _SearchFor)));
+			return DateAndAccount(ValidateDate(FindPattern(_SearchIn, _SearchFor)));
 		}
 
 		private static List<string> FindPattern(string searchIn, string searchFor)
@@ -60,7 +60,7 @@ namespace PDFReader
 			return validatedPatterns;
 		}
 
-		private static Tuple<List<DateTime>, List<double>> DateAndNumber(List<string> foundPatterns)
+		private static Tuple<List<DateTime>, List<double>> DateAndAccount(List<string> foundPatterns)
 		{
 			var numers = new List<double>();
 			var dateTimes = new List<DateTime>();
