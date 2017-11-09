@@ -9,7 +9,7 @@ namespace PDFReader
 	/// <summary>
 	/// This class extracts all positive amounts from the account avoiding internal transfers
 	/// </summary>
-	class AccountPositiveExtractor : IExtractor
+	class AccountPositiveExtractor : AccountBaseExtractor, IExtractor
 	{
 		#region Fields
 
@@ -25,8 +25,6 @@ namespace PDFReader
 		}
 
 		#endregion
-
-		
 
 		#region Methods
 
