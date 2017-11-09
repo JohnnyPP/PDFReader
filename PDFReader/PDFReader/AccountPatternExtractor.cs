@@ -27,8 +27,6 @@ namespace PDFReader
 
 			foreach (var pattern in _SearchFor)
 			{
-
-
 				result.Add(DateAndAccount(ValidateDate(FindPattern(_SearchIn, pattern))));
 			}
 			return result;
@@ -125,9 +123,9 @@ namespace PDFReader
 		private static string FindAccount(string foundPattern)
 		{
 			var index = foundPattern.LastIndexOf(' ');
-			var number = foundPattern.Substring(index + 1);
+			var account = foundPattern.Substring(index + 1);
 
-			return number.Contains(',') ? number : null;
+			return account.Contains(',') ? account : null;
 		}
 	}
 }
