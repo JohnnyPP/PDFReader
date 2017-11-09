@@ -8,6 +8,6 @@ namespace PDFReader
 {
 	internal interface IExtractor
 	{
-		Tuple<List<DateTime>, List<double>, List<string>> Extract();
+		List<Tuple<List<DateTime>, List<double>, List<string>>> Extract();
 	}
 }

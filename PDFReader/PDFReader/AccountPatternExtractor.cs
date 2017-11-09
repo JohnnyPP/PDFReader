@@ -13,27 +13,39 @@ namespace PDFReader
 	class AccountPatternExtractor : IExtractor
 	{
 		private static string _SearchIn;
-		private static string _SearchFor;
+		private static List<string> _SearchFor;
 
-		public AccountPatternExtractor(string searchIn, string searchFor)
+		public AccountPatternExtractor(string searchIn, List<string> searchFor)
 		{
 			_SearchFor = searchFor;
 			_SearchIn = searchIn;
 		}
 
-		public Tuple<List<DateTime>, List<double>, List<string>> Extract()
+		public List<Tuple<List<DateTime>, List<double>, List<string>>> Extract()
 		{
-			return DateAndAccount(ValidateDate(FindPattern(_SearchIn, _SearchFor)));
+			var result = new List<Tuple<List<DateTime>, List<double>, List<string>>>();
+
+			foreach (var pattern in _SearchFor)
+			{
+
+
+				result.Add(DateAndAccount(ValidateDate(FindPattern(_SearchIn, pattern))));
+			}
+			return result;
 		}
 
-		public void Print(Tuple<List<DateTime>, List<double>, List<string>> dataToPrint)
+		public void Print(List<Tuple<List<DateTime>, List<double>, List<string>>> dataToPrint)
 		{
 			Console.WriteLine(Environment.NewLine);
-			for (var i = 0; i < dataToPrint.Item1.Count; i++)
+
+			foreach (var tuple in dataToPrint)
 			{
-				Console.WriteLine(dataToPrint.Item1[i]);
-				Console.WriteLine(dataToPrint.Item2[i]);
-				Console.WriteLine(dataToPrint.Item3[i]);
+				for (var i = 0; i < tuple.Item1.Count; i++)
+				{
+					Console.WriteLine(tuple.Item1[i]);
+					Console.WriteLine(tuple.Item2[i]);
+					Console.WriteLine(tuple.Item3[i]);
+				}
 			}
 		}
 

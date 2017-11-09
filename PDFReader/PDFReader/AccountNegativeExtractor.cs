@@ -28,7 +28,7 @@ namespace PDFReader
 
 		#region Methods
 
-		public Tuple<List<DateTime>, List<double>, List<string>> Extract()
+		public List<Tuple<List<DateTime>, List<double>, List<string>>> Extract()
 		{
 			throw new NotImplementedException();
 		}

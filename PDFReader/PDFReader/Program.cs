@@ -29,13 +29,14 @@ namespace PDFReader
 
 		static void Main(string[] args)
 		{
-			var dateTimeAndNumber = new Tuple<List<DateTime>, List<double>, List<string>>(null, null, null);
+			var dateTimeAndNumber = new List<Tuple<List<DateTime>, List<double>, List<string>>>();
+			var searchFor = new List<string> { "Zeiss", "AMAZON" };
 
 			PDFReader reader = new PDFReader(@"D:\Git\PDF\PDFs\test2.pdf");
 			string readString = reader.Read();
 			Console.Write(readString);
 
-			AccountPatternExtractor extractor = new AccountPatternExtractor(readString, "Zeiss");
+			AccountPatternExtractor extractor = new AccountPatternExtractor(readString, searchFor);
 			dateTimeAndNumber = extractor.Extract();
 			extractor.Print(dateTimeAndNumber);
 
