@@ -84,15 +84,16 @@ namespace PDFReader
 		{
 			var account = new List<double>();
 			var dateTimes = new List<DateTime>();
+            var cultureInfo = new CultureInfo("de-DE");
 
-			foreach (var foundPattern in foundPatterns)
+            foreach (var foundPattern in foundPatterns)
 			{
 				var foundNumber = FindAccount(foundPattern);
 
 				if (foundNumber == null)
 					continue;
 
-				account.Add(double.Parse(foundNumber, NumberStyles.Currency));
+				account.Add(double.Parse(foundNumber, NumberStyles.Currency, cultureInfo));
 				dateTimes.Add(FindDateTime(foundPattern));
 			}
 

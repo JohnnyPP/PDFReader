@@ -59,15 +59,16 @@ namespace PDFReader
 			var accountNegative = new List<double>();
 			var dateTimesNegative = new List<DateTime>();
 			var result = new List<Tuple<List<DateTime>, List<double>, List<string>>>();
+            var cultureInfo = new CultureInfo("de-DE");
 
-			foreach (var foundPattern in foundPatterns)
+            foreach (var foundPattern in foundPatterns)
 			{
 				var foundNumber = FindAccount(foundPattern);
 
 				if (foundNumber == null)
 					continue;
 
-				var foundAmount = double.Parse(foundNumber, NumberStyles.Currency);
+				var foundAmount = double.Parse(foundNumber, NumberStyles.Currency, cultureInfo);
 
 				if (foundAmount > 0.0)
 				{
