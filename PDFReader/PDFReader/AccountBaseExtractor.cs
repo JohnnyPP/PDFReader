@@ -30,28 +30,35 @@ namespace PDFReader
 
 		#region Methods
 
-		public Tuple<List<DateTime>, List<double>, List<string>> Extract()
+		public List<Tuple<List<DateTime>, List<double>, List<string>>> Extract()
 		{
 			return DateAndAccount(RejectPattern(ValidateAmount(ValidateDate(StringToList(_SearchIn))), _SearchFor));
 		}
 
-		public void Print(Tuple<List<DateTime>, List<double>, List<string>> dataToPrint)
+		public void Print(List<Tuple<List<DateTime>, List<double>, List<string>>> dataToPrint)
 		{
 			Console.WriteLine(Environment.NewLine);
 
-
-			for (var i = 0; i < dataToPrint.Item1.Count; i++)
+			foreach (var tuple in dataToPrint)
 			{
-				Console.WriteLine(dataToPrint.Item1[i]);
-				Console.WriteLine(dataToPrint.Item2[i]);
-				Console.WriteLine(dataToPrint.Item3[i]);
+				for (var i = 0; i < tuple.Item1.Count; i++)
+				{
+					Console.WriteLine(tuple.Item1[i]);
+					Console.WriteLine(tuple.Item2[i]);
+					Console.WriteLine(tuple.Item3[i]);
+				}
 			}
 		}
 
-		private static Tuple<List<DateTime>, List<double>, List<string>> DateAndAccount(List<string> foundPatterns)
+		private static List<Tuple<List<DateTime>, List<double>, List<string>>> DateAndAccount(List<string> foundPatterns)
 		{
-			var account = new List<double>();
-			var dateTimes = new List<DateTime>();
+			var patternPositive = new List<string>();
+			var accountPositive = new List<double>();
+			var dateTimesPositive = new List<DateTime>();
+			var patternNegative = new List<string>();
+			var accountNegative = new List<double>();
+			var dateTimesNegative = new List<DateTime>();
+			var result = new List<Tuple<List<DateTime>, List<double>, List<string>>>();
 
 			foreach (var foundPattern in foundPatterns)
 			{
@@ -60,11 +67,32 @@ namespace PDFReader
 				if (foundNumber == null)
 					continue;
 
-				account.Add(double.Parse(foundNumber, NumberStyles.Currency));
-				dateTimes.Add(FindDateTime(foundPattern));
+				var foundAmount = double.Parse(foundNumber, NumberStyles.Currency);
+
+				if (foundAmount > 0.0)
+				{
+					accountPositive.Add(foundAmount);
+					dateTimesPositive.Add(FindDateTime(foundPattern));
+					patternPositive.Add(foundPattern);
+				}
+				else
+				{
+					accountNegative.Add(foundAmount);
+					dateTimesNegative.Add(FindDateTime(foundPattern));
+					patternNegative.Add(foundPattern);
+				}
 			}
 
-			return new Tuple<List<DateTime>, List<double>, List<string>>(dateTimes, account, foundPatterns);
+			result.Add(new Tuple<List<DateTime>, List<double>, List<string>>(dateTimesPositive, accountPositive, patternPositive));
+			result.Add(new Tuple<List<DateTime>, List<double>, List<string>>(dateTimesNegative, accountNegative, patternNegative));
+
+			return result;
+		}
+
+
+		private static int GetSign(double numberToCheck)
+		{
+			return Math.Sign(numberToCheck);
 		}
 
 

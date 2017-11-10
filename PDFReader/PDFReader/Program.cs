@@ -30,7 +30,7 @@ namespace PDFReader
 		static void Main(string[] args)
 		{
 			var dateTimeAndNumber = new List<Tuple<List<DateTime>, List<double>, List<string>>>();
-			var baseExtractorData = new Tuple<List<DateTime>, List<double>, List<string>>(null, null, null);
+			var baseExtractorData = new List<Tuple<List<DateTime>, List<double>, List<string>>>();
 			var searchFor = new List<string> { "Zeiss", "AMAZON" };
 			var rejectPattern = new List<Tuple<string, string>>
 			{
