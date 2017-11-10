@@ -30,7 +30,14 @@ namespace PDFReader
 		static void Main(string[] args)
 		{
 			var dateTimeAndNumber = new List<Tuple<List<DateTime>, List<double>, List<string>>>();
+			var baseExtractorData = new Tuple<List<DateTime>, List<double>, List<string>>(null, null, null);
 			var searchFor = new List<string> { "Zeiss", "AMAZON" };
+			var rejectPattern = new List<Tuple<string, string>>
+			{
+				Tuple.Create( "Ueberweisung", "Kolanek" ),
+				Tuple.Create( "Gutschrift", "Kolanek" ),
+				Tuple.Create( "Ueberweisung", "MONEYOU" )
+			};
 
 			PDFReader reader = new PDFReader(@"D:\Git\PDF\PDFs\test2.pdf");
 			string readString = reader.Read();
@@ -39,6 +46,12 @@ namespace PDFReader
 			AccountPatternExtractor extractor = new AccountPatternExtractor(readString, searchFor);
 			dateTimeAndNumber = extractor.Extract();
 			extractor.Print(dateTimeAndNumber);
+
+			AccountPositiveExtractor positiveExtractor = new AccountPositiveExtractor(readString, rejectPattern);
+			AccountBaseExtractor baseExtractor = new AccountBaseExtractor(readString, rejectPattern);
+
+			baseExtractorData = baseExtractor.Extract();
+			baseExtractor.Print(baseExtractorData);
 
 			//AccountPositiveExtractor.Sum() - AccountNegativeExtractor.Sum() = Amount saved in the month -> this should be displayed as bar plot
 		}
