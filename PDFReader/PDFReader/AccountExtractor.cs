@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace PDFReader
 {
-	class AccountBaseExtractor
+    /// <summary>
+    /// Extracts data from accounts.
+    /// </summary>
+	class AccountExtractor
 	{
 		#region Fields
 
@@ -22,17 +21,21 @@ namespace PDFReader
 
         #region Constructors
 
-        public AccountBaseExtractor(string searchIn, List<Tuple<string, string>> searchFor)
+        public AccountExtractor(string searchIn, List<Tuple<string, string>> searchFor)
 		{
 			_SearchFor = searchFor;
 			_SearchIn = searchIn;
 		}
 
-		#endregion
+        #endregion
 
-		#region Methods
+        #region Methods
 
-		public List<Tuple<List<DateTime>, List<double>, List<string>>> Extract()
+        /// <summary>
+        /// Extracts account data
+        /// </summary>
+        /// <returns>List[0] - positive account data, List[1] - negative account data</returns>
+        public List<Tuple<List<DateTime>, List<double>, List<string>>> Extract()
 		{
 			return DateAndAccount(RejectPattern(ValidateAmount(ValidateDate(StringToList(_SearchIn))), _SearchFor));
 		}
@@ -99,8 +102,6 @@ namespace PDFReader
 		{
 			return Math.Sign(numberToCheck);
 		}
-
-        
 
         /// <summary>
         /// Rejects the search pattern that is internal or external transfers between accounts

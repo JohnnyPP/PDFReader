@@ -42,7 +42,7 @@ namespace PDFReader
 			extractor.Print(dateTimeAndNumber);
 
 			AccountPositiveExtractor positiveExtractor = new AccountPositiveExtractor(readString, rejectPattern);
-			AccountBaseExtractor baseExtractor = new AccountBaseExtractor(readString, rejectPattern);
+			AccountExtractor baseExtractor = new AccountExtractor(readString, rejectPattern);
 
 			baseExtractorData = baseExtractor.Extract();
 			baseExtractor.Print(baseExtractorData);

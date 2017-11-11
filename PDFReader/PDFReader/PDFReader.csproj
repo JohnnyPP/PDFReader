@@ -47,7 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountBaseExtractor.cs" />
+    <Compile Include="AccountExtractor.cs" />
     <Compile Include="AccountPatternExtractor.cs" />
     <Compile Include="AccountMonthlySum.cs" />
     <Compile Include="AccountPositiveExtractor.cs" />
