@@ -49,7 +49,7 @@
   <ItemGroup>
     <Compile Include="AccountBaseExtractor.cs" />
     <Compile Include="AccountPatternExtractor.cs" />
-    <Compile Include="AccountNegativeExtractor.cs" />
+    <Compile Include="AccountMonthlySum.cs" />
     <Compile Include="AccountPositiveExtractor.cs" />
     <Compile Include="IExtractor.cs" />
     <Compile Include="PDFReader.cs" />

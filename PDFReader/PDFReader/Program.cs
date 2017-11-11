@@ -14,32 +14,26 @@ namespace PDFReader
 {
 	class Program
 	{
-		//Look for patterns in string of the form
-		//26.10.2017 Some string with spaces 4.145,26
-		//17.10.2017 Some other string with spaces -15,24
-		//DATE TXT NUMBER (with, . and possible - in the front)
-		//Algorithm:
-		//1. Read pdf into a string
-		//2. This should be displayed on the screen. The user should define search pattern TXT or pattern should be read from the txt file
-		//3. Search for the TXT
-		//4. If 3. found validate
-		//5. Does the line begins with valid DATE is at the beginning
-		//6. If 5. is true search if NUMBER is located at the end
-		//7. If 6 true store the NUMBER and store the DATE for given TXT search pattern
+        enum SumType
+        {
+            Positive = 0,
+            Negative = 1
+        }
 
 		static void Main(string[] args)
 		{
 			var dateTimeAndNumber = new List<Tuple<List<DateTime>, List<double>, List<string>>>();
 			var baseExtractorData = new List<Tuple<List<DateTime>, List<double>, List<string>>>();
 			var searchFor = new List<string> { "Zeiss", "AMAZON" };
-			var rejectPattern = new List<Tuple<string, string>>
-			{
-				Tuple.Create( "Ueberweisung", "Kolanek" ),
-				Tuple.Create( "Gutschrift", "Kolanek" ),
-				Tuple.Create( "Ueberweisung", "MONEYOU" )
+            var rejectPattern = new List<Tuple<string, string>>
+            {
+                Tuple.Create( "Ueberweisung", "Kolanek" ),
+                Tuple.Create( "Gutschrift", "Kolanek" ),
+                Tuple.Create( "Ueberweisung", "MONEYOU" ),
+                Tuple.Create( "Ueberweisung", "Extra-Konto" )
 			};
 
-			PDFReader reader = new PDFReader(@"D:\Git\PDF\PDFs\test2.pdf");
+			PDFReader reader = new PDFReader(@"D:\Git\PDF\PDFs\");
 			string readString = reader.Read();
 			Console.Write(readString);
 
@@ -53,7 +47,24 @@ namespace PDFReader
 			baseExtractorData = baseExtractor.Extract();
 			baseExtractor.Print(baseExtractorData);
 
-			//AccountPositiveExtractor.Sum() - AccountNegativeExtractor.Sum() = Amount saved in the month -> this should be displayed as bar plot
-		}
-	}
+            Console.WriteLine();
+
+            AccountMonthlySum accountMonthlySumPositive = new AccountMonthlySum(baseExtractorData);
+            accountMonthlySumPositive.Sum(SumType.Positive);
+            accountMonthlySumPositive.PrintSum();
+
+            Console.WriteLine();
+
+            AccountMonthlySum accountMonthlySumNegative = new AccountMonthlySum(baseExtractorData);
+            accountMonthlySumNegative.Sum(SumType.Negative);
+            accountMonthlySumNegative.PrintSum();
+
+            Console.WriteLine();
+
+            var results = accountMonthlySumPositive.MonthlySums.Zip(accountMonthlySumNegative.MonthlySums, (f, s) => f + s).ToList();
+
+            results.ForEach(Console.WriteLine);
+
+        }
+    }
 }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -16,11 +18,11 @@ namespace PDFReader
 		private readonly string _SearchIn;
 		private readonly List<Tuple<string, string>> _SearchFor;
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		public AccountBaseExtractor(string searchIn, List<Tuple<string, string>> searchFor)
+        public AccountBaseExtractor(string searchIn, List<Tuple<string, string>> searchFor)
 		{
 			_SearchFor = searchFor;
 			_SearchIn = searchIn;
@@ -48,7 +50,7 @@ namespace PDFReader
 					Console.WriteLine(tuple.Item3[i]);
 				}
 			}
-		}
+        }
 
 		private static List<Tuple<List<DateTime>, List<double>, List<string>>> DateAndAccount(List<string> foundPatterns)
 		{
@@ -60,6 +62,7 @@ namespace PDFReader
 			var dateTimesNegative = new List<DateTime>();
 			var result = new List<Tuple<List<DateTime>, List<double>, List<string>>>();
             var cultureInfo = new CultureInfo("de-DE");
+            double foundAmount;
 
             foreach (var foundPattern in foundPatterns)
 			{
@@ -68,20 +71,21 @@ namespace PDFReader
 				if (foundNumber == null)
 					continue;
 
-				var foundAmount = double.Parse(foundNumber, NumberStyles.Currency, cultureInfo);
-
-				if (foundAmount > 0.0)
-				{
-					accountPositive.Add(foundAmount);
-					dateTimesPositive.Add(FindDateTime(foundPattern));
-					patternPositive.Add(foundPattern);
-				}
-				else
-				{
-					accountNegative.Add(foundAmount);
-					dateTimesNegative.Add(FindDateTime(foundPattern));
-					patternNegative.Add(foundPattern);
-				}
+                if (double.TryParse(foundNumber, NumberStyles.Currency, cultureInfo, out foundAmount))
+                {
+                    if (foundAmount > 0.0)
+                    {
+                        accountPositive.Add(foundAmount);
+                        dateTimesPositive.Add(FindDateTime(foundPattern));
+                        patternPositive.Add(foundPattern);
+                    }
+                    else
+                    {
+                        accountNegative.Add(foundAmount);
+                        dateTimesNegative.Add(FindDateTime(foundPattern));
+                        patternNegative.Add(foundPattern);
+                    }
+                }
 			}
 
 			result.Add(new Tuple<List<DateTime>, List<double>, List<string>>(dateTimesPositive, accountPositive, patternPositive));
@@ -96,14 +100,15 @@ namespace PDFReader
 			return Math.Sign(numberToCheck);
 		}
 
+        
 
-		/// <summary>
-		/// Rejects the search pattern that is internal or external transfers between accounts
-		/// </summary>
-		/// <param name="rejectIn"></param>
-		/// <param name="searchFor"></param>
-		/// <returns></returns>
-		private static List<string> RejectPattern(List<string> rejectIn, List<Tuple<string, string>> searchFor)
+        /// <summary>
+        /// Rejects the search pattern that is internal or external transfers between accounts
+        /// </summary>
+        /// <param name="rejectIn"></param>
+        /// <param name="searchFor"></param>
+        /// <returns></returns>
+        private static List<string> RejectPattern(List<string> rejectIn, List<Tuple<string, string>> searchFor)
 		{
 			var indexToReject  = new List<int>();
 
@@ -208,7 +213,6 @@ namespace PDFReader
 			return account.Contains(',') ? account : null;
 		}
 
-
-		#endregion
-	}
+        #endregion
+    }
 }
