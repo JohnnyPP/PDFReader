@@ -210,9 +210,11 @@ namespace PDFReader
             return result;
         }
 
+        //private static bool TryFindAmount(string toFind, out string amount)
         private static bool FindAmount(string toFind)
 		{
-			var index = toFind.LastIndexOf(' ');
+            //combine  FindAmout and FindAccount into one method private static bool TryFindAmount(string toFind, out string amount)
+            var index = toFind.LastIndexOf(' ');
 			var amount = toFind.Substring(index + 1);
 
 			return amount.Contains(',');
