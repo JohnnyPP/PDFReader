@@ -25,6 +25,7 @@ namespace PDFReader
 			var dateTimeAndNumber = new List<Tuple<List<DateTime>, List<double>, List<string>>>();
 			var baseExtractorData = new List<Tuple<List<DateTime>, List<double>, List<string>>>();
 			var searchFor = new List<string> { "Zeiss", "AMAZON" };
+			var searchForPay = new List<string> { "AMAZON" };
             var rejectPattern = new List<Tuple<string, string>>
             {
                 Tuple.Create( "Ueberweisung", "Kolanek" ),
@@ -37,7 +38,7 @@ namespace PDFReader
 			string readString = reader.Read();
 			Console.Write(readString);
 
-			AccountPatternExtractor extractor = new AccountPatternExtractor(readString, searchFor);
+			AccountPatternExtractor extractor = new AccountPatternExtractor(readString, searchForPay);
 			dateTimeAndNumber = extractor.Extract();
 			extractor.Print(dateTimeAndNumber);
 
@@ -64,6 +65,12 @@ namespace PDFReader
             var results = accountMonthlySumPositive.MonthlySums.Zip(accountMonthlySumNegative.MonthlySums, (f, s) => f + s).ToList();
 
             results.ForEach(Console.WriteLine);
+
+            Console.WriteLine();
+
+            AccountMonthlySum accountPay = new AccountMonthlySum(dateTimeAndNumber);
+            accountPay.Sum(SumType.Positive);
+            accountPay.PrintSum();
 
         }
     }

@@ -179,26 +179,38 @@ namespace PDFReader
 
 		private static string FindDate(string foundPattern)
 		{
-			var regex = new Regex(@"\b\d{2}\.\d{2}.\d{4}\b");
-			foreach (Match m in regex.Matches(foundPattern))
+			var regexyy = new Regex(@"\b\d{2}\.\d{2}.\d{2}\b");
+            var regexyyyy = new Regex(@"\b\d{2}\.\d{2}.\d{4}\b");
+            DateTime dt;
+
+            foreach (Match m in regexyy.Matches(foundPattern))
 			{
-				DateTime dt;
-				if (DateTime.TryParseExact(m.Value, "dd.MM.yyyy", null, DateTimeStyles.None, out dt))
+				if (DateTime.TryParseExact(m.Value, "dd.MM.yy", null, DateTimeStyles.None, out dt))
 					return foundPattern;
 			}
 
-			return null;
+            foreach (Match m in regexyyyy.Matches(foundPattern))
+            {
+                if (DateTime.TryParseExact(m.Value, "dd.MM.yyyy", null, DateTimeStyles.None, out dt))
+                    return foundPattern;
+            }
+
+            return null;
 		}
 
 		private static DateTime FindDateTime(string foundPattern)
 		{
 			var index = foundPattern.IndexOf(' ');
 			var date = foundPattern.Substring(0, index);
+            DateTime result = DateTime.Now;
 
-			return DateTime.Parse(date);
-		}
+            if (DateTime.TryParse(date, out result))
+                return result;
 
-		private static bool FindAmount(string toFind)
+            return result;
+        }
+
+        private static bool FindAmount(string toFind)
 		{
 			var index = toFind.LastIndexOf(' ');
 			var amount = toFind.Substring(index + 1);
@@ -208,6 +220,11 @@ namespace PDFReader
 
 		private static string FindAccount(string foundPattern)
 		{
+            // in 2013 there was change in pdf the amount in not on the last position but on the second last
+
+            // find first space at the beginning - count characters
+            // if length = 8 old mode dd.mm.yy
+            // if length = 10 new mode dd.mm.yyyy
 			var index = foundPattern.LastIndexOf(' ');
 			var account = foundPattern.Substring(index + 1);
 
