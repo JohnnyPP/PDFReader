@@ -227,8 +227,24 @@ namespace PDFReader
             // find first space at the beginning - count characters
             // if length = 8 old mode dd.mm.yy
             // if length = 10 new mode dd.mm.yyyy
-			var index = foundPattern.LastIndexOf(' ');
-			var account = foundPattern.Substring(index + 1);
+
+			var firstSpaceIndex = foundPattern.IndexOf(' ');
+			string account = null;
+
+			if (firstSpaceIndex == 10)
+			{
+				var index = foundPattern.LastIndexOf(' ');
+				account = foundPattern.Substring(index + 1);
+			}
+			else
+			{
+				var indexOfLastSpace = foundPattern.LastIndexOf(' ');
+				var indexOfAmountSpace = foundPattern.LastIndexOf(' ', indexOfLastSpace - 1);
+				account = foundPattern.Substring(indexOfAmountSpace + 1);
+
+				var secondAccount  = account.LastIndexOf(' ');
+				account = account.Substring(0, secondAccount);
+			}
 
 			return account.Contains(',') ? account : null;
 		}
