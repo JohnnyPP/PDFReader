@@ -10,7 +10,7 @@ namespace PDFReader
 	/// <summary>
 	/// This class extracts data that matches the pattern
 	/// </summary>
-	class AccountPatternExtractor : IExtractor
+	public class AccountPatternExtractor : IExtractor
 	{
 		private static string _SearchIn;
 		private static List<string> _SearchFor;
