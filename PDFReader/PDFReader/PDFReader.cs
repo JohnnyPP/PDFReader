@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace PDFReader
 {
-	class PDFReader
+	public class PDFReader
 	{
 		#region Fields
 
