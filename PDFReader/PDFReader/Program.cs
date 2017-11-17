@@ -45,13 +45,13 @@ namespace PDFReader
             Console.WriteLine();
 
             AccountMonthlySum accountMonthlySumPositive = new AccountMonthlySum(baseExtractorData);
-            accountMonthlySumPositive.Sum(SumType.Positive);
+            accountMonthlySumPositive.Sum(SumIndex.Index0);
             accountMonthlySumPositive.PrintSum();
 
             Console.WriteLine();
 
             AccountMonthlySum accountMonthlySumNegative = new AccountMonthlySum(baseExtractorData);
-            accountMonthlySumNegative.Sum(SumType.Negative);
+            accountMonthlySumNegative.Sum(SumIndex.Index1);
             accountMonthlySumNegative.PrintSum();
 
             Console.WriteLine();
@@ -63,7 +63,7 @@ namespace PDFReader
             Console.WriteLine();
 
             AccountMonthlySum accountPay = new AccountMonthlySum(dateTimeAndNumber);
-            accountPay.Sum(SumType.Positive);
+            accountPay.Sum(SumIndex.Index0);
             accountPay.PrintSum();
 
         }

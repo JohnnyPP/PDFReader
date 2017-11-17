@@ -26,7 +26,7 @@ namespace PDFReaderUnitTest
 			var extractedData = extractor.Extract();
 			var extractedDatasSum = new AccountMonthlySum(extractedData);
 
-			extractedDatasSum.Sum(SumType.Positive);
+			extractedDatasSum.Sum(SumIndex.Index0);
 
 			for (var i = 0; i < _ExpectedValuesNegative.Count; i++)
 			{
@@ -44,7 +44,7 @@ namespace PDFReaderUnitTest
 			var extractedData = extractor.Extract();
 			var extractedDatasSum = new AccountMonthlySum(extractedData);
 
-			extractedDatasSum.Sum(SumType.Positive);
+			extractedDatasSum.Sum(SumIndex.Index0);
 
 			for (var i = 0; i < _ExpectedValuesNegative.Count; i++)
 			{
