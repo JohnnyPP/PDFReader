@@ -10,7 +10,7 @@ namespace PDFReader
     /// <summary>
     /// Extracts data from accounts.
     /// </summary>
-	class AccountExtractor
+    public class AccountExtractor
 	{
 		#region Fields
 
