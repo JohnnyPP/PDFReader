@@ -36,11 +36,11 @@ namespace PDFReaderUnitTest
 			var searchFor = new List<string> { "Zeiss" };
 			var extractor = new AccountPatternExtractor(_ReadString, searchFor);
 			var extractedData = extractor.Extract();
-			var extractedDatasSum = new AccountMonthlySum(extractedData);
+			var extractedDataSum = new AccountMonthlySum(extractedData);
 
-			extractedDatasSum.Sum(SumIndex.Index0);
-			AssertDoubleLists(_ExpectedValuesPositive, extractedDatasSum.MonthlySums);
-			extractedDatasSum.PrintSum();
+			extractedDataSum.Sum(SumIndex.Index0);
+			AssertDoubleLists(_ExpectedValuesPositive, extractedDataSum.MonthlySums);
+			extractedDataSum.PrintSum();
 		}
 
 		[TestMethod]
@@ -49,11 +49,11 @@ namespace PDFReaderUnitTest
 			var searchFor = new List<string> { "AMAZON" };
 			var extractor = new AccountPatternExtractor(_ReadString, searchFor);
 			var extractedData = extractor.Extract();
-			var extractedDatasSum = new AccountMonthlySum(extractedData);
+			var extractedDataSum = new AccountMonthlySum(extractedData);
 
-			extractedDatasSum.Sum(SumIndex.Index0);
-			AssertDoubleLists(_ExpectedValuesNegative, extractedDatasSum.MonthlySums);
-			extractedDatasSum.PrintSum();
+			extractedDataSum.Sum(SumIndex.Index0);
+			AssertDoubleLists(_ExpectedValuesNegative, extractedDataSum.MonthlySums);
+			extractedDataSum.PrintSum();
 		}
 
 		[TestMethod]
@@ -85,7 +85,7 @@ namespace PDFReaderUnitTest
 		}
 
 
-		private void AssertDoubleLists(List<double> expected, List<double> actual)
+		private static void AssertDoubleLists(List<double> expected, List<double> actual)
 		{
 			for (var i = 0; i < expected.Count; i++)
 			{
