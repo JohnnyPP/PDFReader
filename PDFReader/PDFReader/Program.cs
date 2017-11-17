@@ -12,14 +12,8 @@ using iTextSharp.text.pdf.parser;
 
 namespace PDFReader
 {
-	class Program
+	partial class Program
 	{
-        enum SumType
-        {
-            Positive = 0,
-            Negative = 1
-        }
-
 		static void Main(string[] args)
 		{
 			var dateTimeAndNumber = new List<Tuple<List<DateTime>, List<double>, List<string>>>();

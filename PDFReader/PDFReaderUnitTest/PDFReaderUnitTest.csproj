@@ -55,6 +55,7 @@
     <Compile Include="AccountPatternExtractorUnitTest.cs" />
     <Compile Include="PDFReaderUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AccountMonthlySumUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PDFReader\PDFReader.csproj">

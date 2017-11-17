@@ -9,7 +9,7 @@ namespace PDFReader
 	/// <summary>
 	/// This class sums the account amount for each month
 	/// </summary>
-	class AccountMonthlySum
+	public class AccountMonthlySum
 	{
         #region Fields
 
