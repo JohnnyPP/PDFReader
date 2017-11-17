@@ -14,12 +14,12 @@ namespace PDFReaderUnitTest
 	{
 		public AccountPatternExtractorUnitTest()
 		{
-			//
-			// TODO: Add constructor logic here
-			//
+			var reader = new PDFReader.PDFReader(@"D:\Git\PDF\PDFs\");
+			_ReadString = reader.Read();
 		}
 
 		private TestContext testContextInstance;
+		private static string _ReadString;
 
 		/// <summary>
 		///Gets or sets the test context which provides
@@ -60,25 +60,39 @@ namespace PDFReaderUnitTest
 		#endregion
 
 		[TestMethod]
-		public void AccountPatternExtractorUnitTestMethod()
+		public void AccountPatternExtractorSearchFor1Item()
 		{
-			var searchFor1 = new List<string> { "AMAZON" };
-			var searchFor2 = new List<string> { "Zeiss", "Gutschrift" };
+
+			var searchFor = new List<string> { "AMAZON" };
+
+			var extractor = new AccountPatternExtractor(_ReadString, searchFor);
+			var extractedData = extractor.Extract();
+			Assert.AreEqual(extractedData[0].Item1.Count, 45, "Unexpected number of extracted matches.");
+			extractor.Print(extractedData);
+		}
 
 
-			var reader = new PDFReader.PDFReader(@"D:\Git\PDF\PDFs\");
-			var readString = reader.Read();
+		[TestMethod]
+		public void AccountPatternExtractorSearchFor2Items()
+		{
+			var searchFor = new List<string> { "Zeiss", "Gutschrift" };
 
-			var extractor1 = new AccountPatternExtractor(readString, searchFor1);
-			var extractedData1 = extractor1.Extract();
-			Assert.AreEqual(extractedData1[0].Item1.Count, 45, "Unexpected number of extracted strings.");
-			extractor1.Print(extractedData1);
+			var extractor = new AccountPatternExtractor(_ReadString, searchFor);
+			var extractedData = extractor.Extract();
+			Assert.AreEqual(extractedData[0].Item1.Count, 13, "Unexpected number of extracted strings.");
+			Assert.AreEqual(extractedData[1].Item1.Count, 44, "Unexpected number of extracted strings.");
+			extractor.Print(extractedData);
+		}
 
-			var extractor2 = new AccountPatternExtractor(readString, searchFor2);
-			var extractedData2 = extractor2.Extract();
-			Assert.AreEqual(extractedData2[0].Item1.Count, 13, "Unexpected number of extracted strings.");
-			Assert.AreEqual(extractedData2[1].Item1.Count, 44, "Unexpected number of extracted strings.");
-			extractor2.Print(extractedData2);
+		[TestMethod]
+		public void AccountPatternExtractorSearchForNoItem()
+		{
+			var searchFor = new List<string> { "Amazon" };
+
+			var extractor = new AccountPatternExtractor(_ReadString, searchFor);
+			var extractedData = extractor.Extract();
+			Assert.AreEqual(extractedData[0].Item1.Count, 0, "No match should be found.");
+			extractor.Print(extractedData);
 		}
 	}
 }
